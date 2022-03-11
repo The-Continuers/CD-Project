@@ -9,14 +9,42 @@ tokens = (
     'T_BOOLEANLITERAL'
 )
 
+
 # main tokens
-t_T_NORM = r"^(<<)|(>>)|(<=)|(>=)|(==)|(!=)|(&&)|(\|\|)|[{}\[\],;()=\-!+*\/<>%]$"
-t_T_ID = r"^[_a-zA-Z][_a-zA-Z0-9]*$"
-t_T_INTLITERAL = r"^(0x)?[0-9]+$"
+def t_T_NORM(t):
+    r"^(<<)|(>>)|(<=)|(>=)|(==)|(!=)|(&&)|(\|\|)|[{}\[\],;()=\-!+*\/<>%]$"
+    return t
+
+
+def t_T_ID(t):
+    r"^[_a-zA-Z][_a-zA-Z0-9]*$"
+    return t
+
+
+def t_T_INTLITERAL(t):
+    r"^(0x)?[0-9]+$"
+    t.value = int(t.value)
+    return t
+
+
 # todo overlook
-t_T_DOUBLELITERAL = r"^[0-9]+(\.[0-9]+)?$"
-t_T_STRINGLITERAL = r"""^\"([^"]|(\\\"))*\"$"""
-t_T_BOOLEANLITERAL = r"^(true)|(false)$"
+def t_T_DOUBLELITERAL(t):
+    r"^[0-9]+(\.[0-9]+)?$"
+    t.value = float(t.value)
+    return t
+
+
+def t_T_STRINGLITERAL(t):
+    r"""^\"([^"]|(\\\"))*\"$"""
+    return t
+
+
+# todo
+def t_T_BOOLEANLITERAL(t):
+    r"^(true)|(false)$"
+    return t
+
+
 # todo t_comment. PreProcessor?
 
 # other tokens
