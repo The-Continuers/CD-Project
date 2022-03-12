@@ -1,5 +1,5 @@
 from compiler.scanner import LexicalAnalyzer
-
+import re
 
 class Preprocessor:
 
@@ -24,7 +24,7 @@ class Preprocessor:
     def replace_micros(self, micros):
         data = self.analyzer.data
         for key, value in micros.items():
-            data = data.replace(key, value)
+            data = re.sub(f'([^A-Za-z0-9_]){key}([^A-Za-z0-9_])', f'\\1{value}\\2', data)
         self.analyzer.data = data
 
     def preprocess(self):
