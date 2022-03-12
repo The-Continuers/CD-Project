@@ -23,17 +23,15 @@ class LexicalAnalyzer:
         self.tokenizer.tokenize()
 
     def clean_token_type(self, token) -> str:
-        if token.type in DECAF_RESERVED_KEYWORDS:
+        if token.type in ['RESERVED', 'PUNCTUATION']:
             return token.value
         elif token.type == 'UNDEFINED_TOKEN':
             return token.type
         else:
             return f"T_{token.type} {token.value}"
 
-        pass
-
     def get_all_tokens(self) -> str:
-        result = ''
+        result = []
         while token := self.tokenizer.generate_token():
-            result += self.clean_token_type(token) + "\n"
-        return result
+            result.append(self.clean_token_type(token))
+        return "\n".join(result)

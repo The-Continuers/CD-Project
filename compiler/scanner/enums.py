@@ -3,3 +3,5 @@ DECAF_RESERVED_KEYWORDS = [
     'class', 'continue', 'define', 'double', 'dtoi', 'else', 'for', 'if', 'import', 'int', 'itob', 'itod',
     'new', 'null', 'private', 'public', 'return', 'string', 'this', 'void', 'while'
 ]
+
+DECAF_BOOLEAN_KEYWORDS = ['true', 'false']
