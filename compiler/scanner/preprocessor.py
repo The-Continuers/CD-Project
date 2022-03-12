@@ -17,6 +17,7 @@ class Preprocessor:
                 macros[arr[1]] = arr[2]
             else:
                 clean_data += line
+                clean_data += '\n'
         self.analyzer.data = clean_data
         self.replace_micros(macros)
         return self.analyzer.data
