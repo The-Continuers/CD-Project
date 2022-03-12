@@ -20,7 +20,6 @@ def t_newline(t):
     t.lexer.lineno += len(t.value)
 
 
-# todo overlook
 t_PUNCTUATION = r"(<=)|(>=)|(==)|(!=)|" \
                 r"(&&)|(\|\|)|" \
                 r"(\+=)|(-=)|(\*=)|(\/=)|" \
@@ -38,13 +37,11 @@ def t_ID(t):
 
 def t_DOUBLELITERAL(t):
     r"""[0-9]+\.[0-9]*([eE][-+]?[0-9]+)?"""
-    # t.value = float(t.value)
     return t
 
 
 def t_INTLITERAL(t):
     r"""(0x[0-9A-Fa-f]+)|([0-9]+)"""
-    # t.value = int(t.value)
     return t
 
 

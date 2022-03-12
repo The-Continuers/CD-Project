@@ -20,9 +20,6 @@ class LexicalAnalyzer:
 
     def analyze(self):
         self.preprocessor.preprocess()
-        # print('preprocessed_data')
-        # print(self.data)
-        # print('preprocessed_data')
         self.tokenizer.tokenize()
 
     def clean_token_type(self, token) -> str:
