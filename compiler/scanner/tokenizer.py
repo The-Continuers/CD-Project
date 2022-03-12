@@ -4,14 +4,15 @@ from compiler.scanner import LexicalAnalyzer
 from compiler.scanner.enums import *
 
 # List of token names.This is always required
-tokens = DECAF_RESERVED_KEYWORDS + [
-             'PUNCTUATION',
-             'ID',
-             'INTLITERAL',
-             'DOUBLELITERAL',
-             'STRINGLITERAL',
-             'BOOLEANLITERAL'
-         ]
+tokens = [
+    'PUNCTUATION',
+    'ID',
+    'RESERVED',
+    'BOOLEANLITERAL',
+    'DOUBLELITERAL',
+    'INTLITERAL',
+    'STRINGLITERAL'
+]
 
 
 def t_newline(t):
@@ -20,30 +21,38 @@ def t_newline(t):
 
 
 # todo overlook
-t_PUNCTUATION = r"(<<)|(>>)|(<=)|(>=)|(==)|(!=)|(&&)|(\|\|)|[{}\[\],;()=\-!+*\/<>%]"
+t_PUNCTUATION = r"(<=)|(>=)|(==)|(!=)|" \
+                r"(&&)|(\|\|)|" \
+                r"(\+=)|(-=)|(\*=)|(\/=)|" \
+                r"[\.{}\[\],;()=\-!+*\/<>%]"
 
-t_ID = r"[_a-zA-Z][_a-zA-Z0-9]*"
 
-
-def t_INTLITERAL(t):
-    r"""(0x)?[0-9]+"""
-    t.value = int(t.value)
+def t_ID(t):
+    r"[_a-zA-Z][_a-zA-Z0-9]*"
+    if t.value in DECAF_RESERVED_KEYWORDS:
+        t.type = 'RESERVED'
+    elif t.value in DECAF_BOOLEAN_KEYWORDS:
+        t.type = 'BOOLEANLITERAL'
     return t
 
 
 def t_DOUBLELITERAL(t):
-    r"""[0-9]+\.[0-9]+"""
-    t.value = float(t.value)
+    r"""[0-9]+\.[0-9]*([eE][-+]?[0-9]+)?"""
+    # t.value = float(t.value)
+    return t
+
+
+def t_INTLITERAL(t):
+    r"""(0x[0-9A-Fa-f]+)|([0-9]+)"""
+    # t.value = int(t.value)
     return t
 
 
 t_STRINGLITERAL = r"""\"([^"]|(\\(\")?))*\""""
 
-t_BOOLEANLITERAL = r"(true)|(false)"
-
 t_ignore_COMMENT = r"""(\/\/.*)|(\/\*([^\*]|(\*+[^\/\*]))*\*+\/)"""
 
-t_ignore = " \t"
+t_ignore = " \t\f\v"
 
 
 def t_error(t):
