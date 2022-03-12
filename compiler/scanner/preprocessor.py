@@ -3,7 +3,7 @@ import random
 from compiler.scanner import LexicalAnalyzer
 import re
 
-INSIDE_QUOTATION_REGEX_TEMPLATE = r"('[^'\\]*(?:\\.[^'\\]*)*')|\b{0}\b"
+INSIDE_QUOTATION_REGEX_TEMPLATE = r'("[^"\\]*(?:\\.[^"\\]*)*")|\b{0}\b'
 
 
 class Preprocessor:
@@ -19,7 +19,7 @@ class Preprocessor:
                 lambda m: m.group(1) if m.group(1) else self.tof_key,
                 data,
             )
-            data = re.sub(fr'([^A-Za-z0-9_]){self.tof_key}([^A-Za-z0-9_])', f'\g<1>{value}\g<2>', data)
+            data = re.sub(fr'([^A-Za-z0-9_])?{self.tof_key}([^A-Za-z0-9_])?', f'\g<1>{value}\g<2>', data)
             data = re.sub(f'{self.tof_key}', f'{key}', data)
         return data
 
