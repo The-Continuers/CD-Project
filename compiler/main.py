@@ -5,9 +5,6 @@ def run(input_file_address: str) -> str:
     with open(input_file_address) as input_file:
         data = input_file.read()
 
-    # print('data')
-    # print(data)
-    # print('data')
     analyzer = LexicalAnalyzer(data)
     analyzer.analyze()
     return analyzer.get_all_tokens()
