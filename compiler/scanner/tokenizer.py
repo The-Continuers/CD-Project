@@ -48,9 +48,13 @@ def t_INTLITERAL(t):
     return t
 
 
-t_STRINGLITERAL = r"""\"([^"]|(\\(\")?))*\""""
+t_STRINGLITERAL = r"""\"([^\"\\]|(\\.))*\""""
 
-t_ignore_COMMENT = r"""(\/\/.*)|(\/\*([^\*]|(\*+[^\/\*]))*\*+\/)"""
+
+def t_COMMENT(t):
+    r"""(\/\/.*)|(\/\*([^\*]|(\*+[^\/\*]))*\*+\/)"""
+    pass
+
 
 t_ignore = " \t\f\v"
 
