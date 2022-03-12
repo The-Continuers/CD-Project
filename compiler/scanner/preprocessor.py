@@ -7,8 +7,8 @@ class Preprocessor:
         self.analyzer = analyzer
 
     def _preprocess(self) -> str:
-        # TODO: Fill This Function
-        pass
+        # TODO: Sad
+        return self.analyzer.data
 
     def preprocess(self):
         self.analyzer.data = self._preprocess()
