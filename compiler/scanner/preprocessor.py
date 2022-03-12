@@ -22,7 +22,10 @@ class Preprocessor:
         return self.analyzer.data
 
     def replace_micros(self, micros):
-        ...
+        data = self.analyzer.data
+        for key, value in micros.items():
+            data = data.replace(key, value)
+        self.analyzer.data = data
 
     def preprocess(self):
         self.analyzer.data = self._preprocess()
