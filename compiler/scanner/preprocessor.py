@@ -24,7 +24,7 @@ class Preprocessor:
     def replace_micros(self, macros):
         data = self.analyzer.data
         for key, value in macros.items():
-            data = re.sub(f'([^A-Za-z0-9_]){key}([^A-Za-z0-9_])', f'\\1{value}\\2', data)
+            data = re.sub(f'([^A-Za-z0-9_])?{key}([^A-Za-z0-9_])?', f'\\1{value}\\2', data)
         self.analyzer.data = data
 
     def preprocess(self):
