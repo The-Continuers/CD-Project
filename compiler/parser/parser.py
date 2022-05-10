@@ -1,6 +1,6 @@
 from lark import Lark
 
-from compiler.parser.grammars import G2, G1
+from compiler.parser.grammars import G2
 
 decaf_parser = Lark(
     grammar=G2,
