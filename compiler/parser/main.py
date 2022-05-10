@@ -39,13 +39,15 @@ if __name__ == '__main__':
         text = in_file.read()
         analyzer = MockAnalyzer(text)
         try:
-            Preprocessor(analyzer).preprocess()
-            out = handle(analyzer.data)
             out_file = open(f"resources/{out_files[i]}")
             exp_out = out_file.read()
+            Preprocessor(analyzer).preprocess()
+            out = handle(analyzer.data)
         except:
             out = "SYNTAX ERROR"
         if out.strip().lower() != exp_out.strip().lower():
             bugs.append(in_files[i])
+            print(in_files[i])
+            print(analyzer.data)
     print(f"{len(bugs)} bugs")
     print('\n'.join(bugs))
