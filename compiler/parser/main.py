@@ -7,6 +7,9 @@ from os.path import isfile, join
 
 from compiler.scanner import Preprocessor
 
+SYNTAX_ERROR = "Syntax Error"
+OK = "OK"
+
 
 def get_inputs(dir: str) -> Tuple[List[str], List[str]]:
     in_files = [f for f in listdir(dir) if isfile(join(dir, f)) and f.endswith('.in')]
@@ -19,9 +22,9 @@ def get_inputs(dir: str) -> Tuple[List[str], List[str]]:
 def handle(text: str) -> str:
     try:
         tree = decaf_parser.parse(text)
-        return "OK"
+        return OK
     except:
-        return "SYNTAX ERROR"
+        return SYNTAX_ERROR
 
 
 class MockAnalyzer:
@@ -44,7 +47,7 @@ if __name__ == '__main__':
             Preprocessor(analyzer).preprocess()
             out = handle(analyzer.data)
         except:
-            out = "SYNTAX ERROR"
+            out = SYNTAX_ERROR
         if out.strip().lower() != exp_out.strip().lower():
             bugs.append(in_files[i])
             print(in_files[i])
