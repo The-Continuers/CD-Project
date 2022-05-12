@@ -21,7 +21,7 @@ if __name__ == '__main__':
         in_file = open(f"resources/{in_files[i]}")
         out_file = open(f"resources/{out_files[i]}")
         exp_out = out_file.read()
-        out = run_test_case(in_file.read())
+        out = run_test_case(in_file.read(), 'resources/')
         if out.strip().lower() != exp_out.strip().lower():
             bugs.append(in_files[i])
     print(f"{len(bugs)} bugs")

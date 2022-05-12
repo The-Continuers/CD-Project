@@ -57,7 +57,7 @@ class Preprocessor:
 
     def handle_import_file(self, match):
         try:
-            f = open(f'resources/{match.group(1)}')
+            f = open(f'{self.analyzer.parent_path}{match.group(1)}')
             text = f.read()
         except:
             text = ""

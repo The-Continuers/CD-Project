@@ -4,13 +4,14 @@ from compiler.scanner import Preprocessor
 
 class MockAnalyzer:
 
-    def __init__(self, data: str):
+    def __init__(self, data: str, parent_path: str):
         self.data = data
+        self.parent_path = parent_path
 
 
-def run_test_case(text, raise_exception=False):
+def run_test_case(text, parent_path: str, raise_exception=False):
     try:
-        analyzer = MockAnalyzer(text)
+        analyzer = MockAnalyzer(text, parent_path)
         Preprocessor(analyzer).preprocess()
         tree = decaf_parser.parse(analyzer.data)
         if raise_exception:
