@@ -28,4 +28,4 @@ def run_test_case_by_file_name(test_case_name):
 
 
 if __name__ == '__main__':
-    run_test_case_by_file_name('t214-macro.in')
+    run_test_case_by_file_name('t254-import4.in')
