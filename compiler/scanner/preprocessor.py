@@ -4,6 +4,7 @@ from compiler.scanner import LexicalAnalyzer
 import re
 
 INSIDE_QUOTATION_REGEX_TEMPLATE = r'("[^"\\]*(?:\\.[^"\\]*)*")|\b{0}\b'
+IMPORT_REGEX = r'^import\s+\S+$'
 
 
 class Preprocessor:
@@ -30,6 +31,7 @@ class Preprocessor:
         selected_line = False
         for line in data.splitlines():
             line = line.strip()
+            is_import_line = re.match(IMPORT_REGEX, line) is not None
             arr = line.split(" ", 2)
             if arr[0] == "define":
                 if selected_line:
@@ -39,7 +41,8 @@ class Preprocessor:
                 else:
                     raise Exception
             else:
-                selected_line = True
+                if not is_import_line:
+                    selected_line = True
                 clean_data += line
                 clean_data += '\n'
         return self.replace_micros(clean_data, macros)
