@@ -26,4 +26,4 @@ def run(input_file_address: str) -> bool:
 
 
 if __name__ == '__main__':
-    print(run('tests/Arrays/t122-array-1.d'))
+    print(run('tests/test.d'))
