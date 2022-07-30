@@ -1,18 +1,11 @@
 from typing import *
 
 from compiler.sdt.statement import Statement
+from compiler.sdt.types import VariableType, FunctionType
 from compiler.sdt.utils import VariableName
 
 
 class Declaration:
-    pass
-
-
-class VariableType:
-    pass
-
-
-class FunctionType:
     pass
 
 
