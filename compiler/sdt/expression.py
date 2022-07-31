@@ -61,7 +61,8 @@ class NewArrayExpression(Expression):
         self.ty = ty
 
 
-class ThisExpression(Expression): pass
+class ThisExpression(Expression):
+    pass
 
 
 class CallExpression(Expression):
@@ -69,3 +70,15 @@ class CallExpression(Expression):
         super(CallExpression, self).__init__()
         self.identifier = identifier
         self.args = args
+
+
+class ConstExpression(Expression):
+    def __init__(self, const_type: VariableType, value) -> None:
+        super().__init__()
+        self.type = const_type
+        self.value = value
+
+# todo:
+#  dts,
+#  ReadInteger, ReadLine,
+#  __func__, __line
