@@ -4,7 +4,6 @@ from typing import Callable, TYPE_CHECKING, List
 from exceptions import CompilerPanic
 from transformers.sdt.stmts.expressions import Expression
 from transformers.types import DecafType, DecafInt, DecafDouble, DecafString
-from todos import Todo
 
 if TYPE_CHECKING:
     from code_generation import Context
