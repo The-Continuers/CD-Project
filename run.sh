@@ -6,7 +6,7 @@ cd ./tests
 prefix="" ;
 score=0;
 dirlist=(`ls`) ;
-subtasks=$dirlist
+subtasks=("${dirlist[@]}")
 OUTPUT_DIRECTORY="out/"
 TEST_DIRECTORY="tests/"
 REPORT_DIRECTORY="report/"
