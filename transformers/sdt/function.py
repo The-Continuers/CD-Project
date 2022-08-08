@@ -21,6 +21,7 @@ class Function(SDTNode):
         super().__init__()
         self.identifier, self.params, self.return_type = identifier, params, return_type
         self.stmts = stmts
+        self.stmts.new_scope = False
 
     def to_tac(self, context: "Context"):
         scope_name = self.label
