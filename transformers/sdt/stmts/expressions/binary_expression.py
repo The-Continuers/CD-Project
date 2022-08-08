@@ -32,7 +32,7 @@ class BinaryExpression(Expression):
             operator.sub: ['sub $t0, $t0, $t1'],
             operator.mul: ['mul $t0, $t0, $t1'],
             operator.truediv: ['div $t0, $t0, $t1'],
-            operator.mod: ['div $t1, $t0', 'mfhi $t0'],
+            operator.mod: ['div $t0, $t1', 'mfhi $t0'],
         }
         label_name = context.current_scope.get_data_name(data_type)
         op_to_mips_op_double = {
