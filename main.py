@@ -25,9 +25,9 @@ def run(input_file_address: str) -> bool:
 
 
 def eval_test():
-    file_folder = 'val_tests'
-    test_folder = ''
-    file_name = '7_1.d'
+    file_folder = 'tests/'
+    test_folder = 'ConditionalStatements/'
+    file_name = 't139-cond-5.d'
     tac_code = run(join(file_folder, test_folder, file_name))
 
     output_file_addr = "out.asm"

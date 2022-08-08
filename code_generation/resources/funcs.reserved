@@ -87,16 +87,17 @@ _Alloc:
 
 
 _StringEqual:
-        subu    $sp, $sp, 8     # decrement sp to make space to save ra, fp
-        sw      $fp, 8($sp)     # save fp
-        sw      $ra, 4($sp)     # save ra
-        addiu   $fp, $sp, 8     # set up new fp
+        subu $sp, $sp, 8    # decrement sp to make space to save ra, fp
+        sw $fp, 4($sp)  # save fp
+        sw $ra, 0($sp)  # save ra
+        addiu $fp, $sp, 8   # set up new fp
+
         subu    $sp, $sp, 4     # decrement sp to make space for locals/temps
 
         li      $v0, 0
 
         #Determine length string 1
-        lw      $t0, 4($fp)
+        lw      $t0, 0($fp)
         li      $t3, 0
 
 bloop1: lb      $t5, ($t0)
@@ -106,7 +107,7 @@ bloop1: lb      $t5, ($t0)
         b       bloop1
 
 eloop1: # Determine length string 2
-        lw      $t1, 8($fp)
+        lw      $t1, 4($fp)
         li      $t4, 0
 
 bloop2: lb      $t5, ($t1)
@@ -117,8 +118,8 @@ bloop2: lb      $t5, ($t1)
 
 eloop2: bne     $t3,$t4,end1    # Check String Lengths Same
 
-        lw      $t0, 4($fp)
-        lw      $t1, 8($fp)
+        lw      $t0, 0($fp)
+        lw      $t1, 4($fp)
         li      $t3, 0
 
 bloop3: lb      $t5, ($t0)
@@ -132,9 +133,9 @@ bloop3: lb      $t5, ($t0)
 
 eloop3: li      $v0, 1
 
-end1:   move    $sp, $fp        # pop callee frame off stack
-        lw      $ra, -4($fp)    # restore saved ra
-        lw      $fp, 0($fp)     # restore saved fp
+end1:   move $sp, $fp       # pop callee frame off stack
+        lw $ra, -8($fp) # restore saved ra
+        lw $fp, -4($fp) # restore saved fp
         jr      $ra             # return from function
 
 
