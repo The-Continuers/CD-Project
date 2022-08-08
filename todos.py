@@ -4,13 +4,27 @@ class Todo:
     ]
     issues = [
         """
-            most expression code generation sections need type-safety and also type evaluation,
-            to generate the code correctly
+            dts
         """,
         """
-            we have implemented dynamic scoping, not static scoping. 
-            1. we need to check static scoping.
-            2. if a variable wasn't in the scope, we need to look for the global scope, not the parent.
+            Function_Call before Function_def        
         """,
+        """
+            Arrays
+        """,
+        """
+            Array, String Concatenation
+        """,
+        """
+            OOP
+        """
     ]
-    pass
+
+    test_fixes = {
+        '$ep': [
+            'Boolean', 'Int', 'Double', 'String', 'IO', 'Functions'
+        ],
+        'Sad and Ashk': [
+            'Conditional', 'Loop', 'Cast Functions'
+        ]
+    }
