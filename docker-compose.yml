@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  decaf_compiler:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ./rtests.sh
