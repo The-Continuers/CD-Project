@@ -116,7 +116,8 @@ class DecafTransformer(
 
     def variable_defined_with_assign(self, tree):
         return StatementBlock(sts=[Variable(v_type=tree[0], v_id=tree[1]),
-                                   AssignExpression(l_value=tree[1], r_value=tree[2])])
+                                   AssignExpression(l_value=tree[1], r_value=tree[2])],
+                              new_scope=False)
 
     # types
     def type_int(self, tree):
