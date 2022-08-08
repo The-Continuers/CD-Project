@@ -6,8 +6,7 @@ WORKDIR /app
 
 COPY requirements.txt ./
 RUN date
-RUN pip install -r requirements.txt && \
-        pip install ipython
+RUN pip install -r requirements.txt
 
 COPY . .
 
