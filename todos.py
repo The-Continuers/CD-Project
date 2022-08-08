@@ -22,9 +22,9 @@ class Todo:
 
     test_fixes = {
         '$ep': [
-            'Boolean', 'Int', 'Double', 'String', 'IO', 'Functions'
+            'Cast Functions'
         ],
         'Sad and Ashk': [
-            'Conditional', 'Loop', 'Cast Functions'
+            'Conditional', 'Loop'
         ]
     }
