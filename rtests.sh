@@ -1,4 +1,6 @@
 #!/bin/bash
+echo "start"
+date
 scores=( 10 20 30 )
 mkdir -p out
 mkdir -p report
@@ -55,14 +57,14 @@ do
 				echo "++++ test passed"
 			else
 				((NUMBER_OF_FAILED++))
-				FAILED_TESTS+=("$filename")
+				FAILED_TESTS+=("$folder/$filename")
 				echo "---- test failed !"
 			echo
 			fi
 			fi
 		else
 			echo "Code did not execute successfuly!"
-			FAILED_TESTS+=("$filename")
+			FAILED_TESTS+=("$folder/$filename")
 			((NUMBER_OF_FAILED++))
 		fi
 
@@ -95,3 +97,5 @@ echo ${FAILED_TESTS[*]}
 echo "Final score: "
 echo "$score"
 
+echo "finish"
+date
