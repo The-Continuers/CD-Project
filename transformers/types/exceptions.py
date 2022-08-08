@@ -1,0 +1,1 @@
+class DecafTypeError(Exception): pass
