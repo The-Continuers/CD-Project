@@ -69,7 +69,8 @@ class BinaryExpression(Expression):
             ]
             if self.op == operator.ne:
                 codes += [
-                    'nor $t0, $t0, $t0 # not(t0)'
+                    'li $t1, 1 # put 1 to $t1, because we dont have subi',
+                    'sub $t0, $t1, $t0 # put 1-$t0 (not $t0) in $t0'
                 ]
         else:
             CompilerPanic('no other operation is supported for string values')

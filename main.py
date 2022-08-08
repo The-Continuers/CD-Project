@@ -60,5 +60,5 @@ def eval_global_test(argv):
 
 
 if __name__ == '__main__':
-    eval_test()
-    # eval_global_test(argv=sys.argv[1:])
+    # eval_test()
+    eval_global_test(argv=sys.argv[1:])
