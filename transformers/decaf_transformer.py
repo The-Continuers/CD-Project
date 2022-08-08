@@ -5,16 +5,16 @@ from typing import Type, List
 
 from lark import Transformer, Tree
 
-from compiler.transformers.mixins import DecafExpressionTransformerMixin, DecafToValueTransformerMixin
-from compiler.transformers.sdt import (
-    SDTNode, Variable, Function, ReadLine, ReadInteger,
+from transformers.mixins import DecafExpressionTransformerMixin, DecafToValueTransformerMixin
+from transformers.sdt import (
+    SDTNode, Variable, Function,
 )
-from compiler.transformers.sdt.stmts import ReturnStatement, IfStatement, WhileStatement, ForStatement, BreakStatement, \
+from transformers.sdt.stmts import ReturnStatement, IfStatement, WhileStatement, ForStatement, BreakStatement, \
     ContinueStatement, PrintStatement, StatementBlock
-from compiler.transformers.sdt.stmts.expressions import AssignExpression, AccessExpression, IndexExpression, \
-    CallExpression, ListExpression, RefExpression
-from compiler.transformers.sdt.utils import VariableName
-from compiler.transformers.types import (
+from transformers.sdt.stmts.expressions import AssignExpression, AccessExpression, IndexExpression, \
+    CallExpression, ListExpression, RefExpression, ReadLine, ReadInteger
+from transformers.sdt.utils import VariableName
+from transformers.types import (
     DecafArray, DecafString, DecafBool, DecafDouble, DecafInt, DecafVoid,
 )
 from todos import Todo
@@ -55,7 +55,8 @@ class DecafTransformerMeta(ABCMeta):
             setattr(obj, label, cls.get_to_value(caster))
 
     def __new__(cls, name, bases, classdict):
-        cls_obj: Type[DecafTransformer] = type.__new__(cls, name, bases, dict(classdict))
+        cls_obj: Type[DecafTransformer] = type.__new__(
+            cls, name, bases, dict(classdict))
         setters = [
             'set_go_one_level_furthers',
             'set_expressions',
@@ -88,7 +89,7 @@ class DecafTransformer(
 
     def program(self, tree: List[SDTNode]):
         # create global context object
-        from compiler.code_generation import Context
+        from code_generation import Context
         context = Context()
 
         # calc. code section
@@ -220,11 +221,11 @@ class DecafTransformer(
     def expr_this(self, tree):
         return Todo()
 
-    def expr_read_integer(self, tree):
-        return ReadLine()
-
-    def expr_read_line(self, tree):
+    def read_integer(self, tree):
         return ReadInteger()
+
+    def read_line(self, tree):
+        return ReadLine()
 
     def lv_id(self, tree):
         return RefExpression(tree[0])

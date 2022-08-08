@@ -2,11 +2,12 @@ import operator
 from collections import namedtuple
 from typing import Dict, Callable
 
-from compiler.transformers.sdt.stmts.expressions import IntValue, DoubleValue, BoolValue, NullValue, StringValue
-from compiler.transformers.sdt.stmts.expressions import BinaryExpression, UnaryExpression
-from compiler.transformers.sdt.utils import VariableName
+from transformers.sdt.stmts.expressions import IntValue, DoubleValue, BoolValue, NullValue, StringValue
+from transformers.sdt.stmts.expressions import BinaryExpression, UnaryExpression
+from transformers.sdt.utils import VariableName
 
-ExpressionWithOperator = namedtuple('ExpressionWithOperator', ['expr_class', 'operator'])
+ExpressionWithOperator = namedtuple(
+    'ExpressionWithOperator', ['expr_class', 'operator'])
 
 
 class DecafExpressionTransformerMixin:
