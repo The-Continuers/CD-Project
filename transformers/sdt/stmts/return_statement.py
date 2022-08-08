@@ -17,8 +17,8 @@ class ReturnStatement(Statement):
             therefore, after function return, the assign expression will use that $t0 or $f0,
             considering type-safety issues
         """
-        return [
-            "# return expression",
-            *self.return_expr.to_tac(context=context),
-            f'j end_function_{context.current_scope.name} # Fuck Life',
-        ]
+        codes = ["# return expression"]
+        if self.return_expr is not None:
+            codes += self.return_expr.to_tac(context=context)
+        codes += [f'j end_function_{context.current_scope.name} # Fuck Life']
+        return codes
