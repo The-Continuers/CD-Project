@@ -1,5 +1,5 @@
 #!/bin/bash
-scores=( 10 20 30 )
+scores=(4 3 5 2 4 3 3 3 5 2 3 3 7 5 4 5 5 3 4 2 3)
 mkdir -p out
 mkdir -p report
 cd ./tests
