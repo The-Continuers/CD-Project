@@ -25,9 +25,9 @@ def run(input_file_address: str) -> bool:
 
 
 def eval_test():
-    file_folder = 'val_tests'
-    test_folder = ''
-    file_name = '7_1.d'
+    file_folder = 'tests/'
+    test_folder = 'ConditionalStatements/'
+    file_name = 't135-cond-1.d'
     tac_code = run(join(file_folder, test_folder, file_name))
 
     output_file_addr = "out.asm"
@@ -60,5 +60,5 @@ def eval_global_test(argv):
 
 
 if __name__ == '__main__':
-    # eval_test()
-    eval_global_test(argv=sys.argv[1:])
+    eval_test()
+    # eval_global_test(argv=sys.argv[1:])
