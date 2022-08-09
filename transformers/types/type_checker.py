@@ -174,6 +174,7 @@ class ListExpressionTypeChecker(TypeChecker):
     expression: "ListExpression"
 
     def check_type(self, context: "Context", expected_type: DecafType = None) -> DecafType:
+        # breakpoint()
         self.expression.num_expr.type_checker.check_type(context=context, expected_type=DecafInt)
         return self.check_type_equality_and_return(t1=DecafArray(self.expression.type), t2=expected_type)
 

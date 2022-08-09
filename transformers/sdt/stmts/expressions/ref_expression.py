@@ -18,12 +18,10 @@ class RefExpression(Expression):
     @staticmethod
     def ref_code(var: "Variable", st_offset: int) -> List[str]:
         var_type = var.type
-        if var_type in [DecafInt, DecafBool, DecafString]:
-            return [f"lw $t0, {st_offset}($sp)	# load constant value from {st_offset}($sp) to $t0"]
-        elif var_type == DecafDouble:
+        if var_type == DecafDouble:
             return [f"l.d $f0, {st_offset}($sp)	# load constant value from {st_offset}($sp) to $f0"]
         else:
-            return [str(Todo())]
+            return [f"lw $t0, {st_offset}($sp)	# load constant value from {st_offset}($sp) to $t0"]
 
     def to_tac(self, context: "Context") -> List[str]:
         code = []

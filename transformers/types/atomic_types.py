@@ -20,6 +20,10 @@ class DecafArray(DecafType):
     def __str__(self):
         return f'{super().__str__()}<{str(self.sub_type)}>'
 
+    def __eq__(self, other):
+        if type(other) == DecafArray:
+            return self.sub_type == other.sub_type
+
 
 DecafInt = DecafType(enum='DecafInt')
 DecafBool = DecafType(enum='DecafBool')

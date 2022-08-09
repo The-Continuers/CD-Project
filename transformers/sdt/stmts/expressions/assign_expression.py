@@ -19,12 +19,10 @@ class AssignExpression(Expression):
     @staticmethod
     def assign_code(var: "Variable", st_offset: int) -> List[str]:
         var_type = var.type
-        if var_type in [DecafInt, DecafBool, DecafString]:
-            return [f"sw $t0, {st_offset}($sp)	# save value from $t0 to {st_offset}($sp)"]
-        elif var_type == DecafDouble:
+        if var_type == DecafDouble:
             return [f"s.d $f0, {st_offset}($sp)	# save value from $f0 to {st_offset}($sp)"]
         else:
-            return [str(Todo())]
+            return [f"sw $t0, {st_offset}($sp)	# save value from $t0 to {st_offset}($sp)"]
 
     def to_tac(self, context: "Context") -> List[str]:
         code = self.r_value.to_tac(context=context)
