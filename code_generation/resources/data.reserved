@@ -3,3 +3,4 @@ NEWLINE:.asciiz "\n"
 CONST10000: .double -10000.0
 TRUE:.asciiz "true"
 FALSE:.asciiz "false"
+ZERODOUBLE:.double 0.00000000
