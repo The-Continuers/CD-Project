@@ -136,6 +136,16 @@ class CallExpressionTypeChecker(TypeChecker):
     def check_type(self, context: "Context", expected_type: DecafType = None) -> DecafType:
         function: "Function" = context.current_scope.apply_function(
             self.expression.func_name)
+
+        # check number of args
+        if len(self.expression.args) != len(function.params):
+            raise DecafTypeError(f'{function.identifier.name}_call: invalid number of arguments')
+
+        # check type of args
+        func_args = self.expression.args
+        for i in range(len(func_args)):
+            func_args[i].type_checker.check_type(context=context, expected_type=function.params[i].type)
+
         return self.check_type_equality_and_return(function.return_type, expected_type)
 
 

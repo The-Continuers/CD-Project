@@ -1,6 +1,7 @@
 from typing import List, TYPE_CHECKING, Optional
 
 from transformers.sdt.stmts import Statement
+from transformers.types import DecafBool
 
 if TYPE_CHECKING:
     from transformers.sdt.stmts.expressions import Expression
@@ -20,6 +21,8 @@ class IfStatement(Statement):
         #     self.else_stmts.new_scope = False
 
     def to_tac(self, context: "Context") -> List[str]:
+        self.conditional_expr.type_checker.check_type(context=context, expected_type=DecafBool)
+
         if_codes = self.if_stmts.to_tac(context=context) if self.if_stmts else []
         else_codes = self.else_stmts.to_tac(
             context) if self.else_stmts else []
