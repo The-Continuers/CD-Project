@@ -39,7 +39,8 @@ class WhileStatement(Statement):
             codes += self.cond_expr.to_tac(context)
             codes += [f"beqz $t0, {end_label}"]
             self.continue_label = f'cont_{start_label}'
-            codes += self.stmts.to_tac(context)
+            if self.stmts is not None:
+                codes += self.stmts.to_tac(context)
             codes += [
                 f'{self.continue_label}:'
             ]
@@ -65,15 +66,17 @@ class ForStatement(WhileStatement):
         self.post_expr = post_expr
 
     def before_codes_callback(self, context: "Context", codes: List[str]) -> None:
-        if self.init_expr:
+        if self.init_expr is not None:
             codes += self.init_expr.to_tac(context)
 
     def before_jump_callback(self, context: "Context", codes: List[str]) -> None:
-        if self.post_expr:
+        if self.post_expr is not None:
             codes += self.post_expr.to_tac(context)
 
     def to_tac(self, context: "Context") -> List[str]:
-        self.init_expr.type_checker.check_type(context)
-        self.post_expr.type_checker.check_type(context)
+        if self.init_expr is not None:
+            self.init_expr.type_checker.check_type(context)
+        if self.post_expr is not None:
+            self.post_expr.type_checker.check_type(context)
 
         return super(ForStatement, self).to_tac(context)
