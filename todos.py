@@ -4,7 +4,7 @@ class Todo:
     ]
     issues = [
         """
-            dts
+            Print Double In 8bar
         """,
         """
             Function_Call before Function_def        
@@ -22,9 +22,9 @@ class Todo:
 
     test_fixes = {
         '$ep': [
-            'Cast Functions'
+            'Conditional'
         ],
         'Sad and Ashk': [
-            'Conditional', 'Loop'
+            'Loop'
         ]
     }
