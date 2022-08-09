@@ -5,7 +5,9 @@ from transformers.types import DecafType, DecafInt
 from transformers.sdt import Variable
 from transformers.sdt.utils import VariableName
 
+
 if TYPE_CHECKING:
+    from code_generation import Context
     from transformers.sdt.stmts import StatementBlock
 
 

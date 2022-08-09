@@ -3,16 +3,17 @@ import os
 from abc import ABCMeta
 from typing import Type, List
 
-from lark import Transformer, Tree
+from lark import Transformer
 
 from transformers.mixins import DecafExpressionTransformerMixin, DecafToValueTransformerMixin
 from transformers.sdt import (
     SDTNode, Variable, Function,
 )
+from transformers.sdt.builtins import cast_functions
 from transformers.sdt.stmts import ReturnStatement, IfStatement, WhileStatement, ForStatement, BreakStatement, \
     ContinueStatement, PrintStatement, StatementBlock
 from transformers.sdt.stmts.expressions import AssignExpression, AccessExpression, IndexExpression, \
-    CallExpression, ListExpression, RefExpression, ReadLine, ReadInteger, cast_functions, Expression
+    CallExpression, ListExpression, RefExpression, ReadLine, ReadInteger, Expression
 from transformers.sdt.utils import VariableName
 from transformers.types import (
     DecafArray, DecafString, DecafBool, DecafDouble, DecafInt, DecafVoid,

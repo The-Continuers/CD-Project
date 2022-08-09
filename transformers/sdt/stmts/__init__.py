@@ -1,4 +1,5 @@
-from .statement import Statement, StatementBlock
+from .statement import Statement
+from .statement_block import StatementBlock
 from .return_statement import ReturnStatement
 from .if_statement import IfStatement
 

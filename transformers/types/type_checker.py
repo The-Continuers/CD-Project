@@ -118,7 +118,10 @@ class AssignExpressionTypeChecker(TypeChecker):
     expression: "AssignExpression"
 
     def check_type(self, context: "Context", expected_type: DecafType = None) -> DecafType:
-        return self.expression.r_value.type_checker.check_type(context, expected_type)
+        breakpoint()
+        l_value_type = RefExpression(self.expression.l_value).type_checker.check_type(context=context)
+        self.expression.r_value.type_checker.check_type(context, expected_type=l_value_type)
+        return self.check_type_equality_and_return(t1=l_value_type, t2=expected_type)
 
 
 class ConstExpressionTypeChecker(TypeChecker):
