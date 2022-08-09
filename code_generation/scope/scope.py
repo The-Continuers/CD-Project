@@ -1,9 +1,8 @@
-from typing import TYPE_CHECKING, List, Dict, Union
+from typing import TYPE_CHECKING, List, Dict
 
 from code_generation.exceptions import DecafNameError
-from code_generation.scope import Symbol, ScopeLoopInterface
+from code_generation.scope import Symbol
 from exceptions import CompilerPanic
-from utils import Stack
 from todos import Todo
 
 from transformers.types import DecafDouble, DecafBool, DecafString, DecafInt
