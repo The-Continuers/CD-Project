@@ -20,5 +20,5 @@ class ReturnStatement(Statement):
         codes = ["# return expression"]
         if self.return_expr is not None:
             codes += self.return_expr.to_tac(context=context)
-        codes += [f'j end_function_{context.current_scope.name} # Fuck Life']
+        codes += [f'j end_function_{context.current_scope.get_name()} # Fuck Life']
         return codes

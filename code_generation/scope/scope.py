@@ -25,6 +25,9 @@ class Scope:
         self.symbols_env: Dict[str, "Symbol"] = {}
         self.loop_stack = Stack()
 
+    def get_name(self) -> str:
+        return self.parent_scope.get_name() if self.name is None else self.name
+
     def loop(self, loop: Union["ForStatement", "WhileStatement"]):
         return ScopeLoopInterface(self, loop)
 
