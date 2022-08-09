@@ -13,7 +13,7 @@ from transformers.sdt.builtins import cast_functions
 from transformers.sdt.stmts import ReturnStatement, IfStatement, WhileStatement, ForStatement, BreakStatement, \
     ContinueStatement, PrintStatement, StatementBlock
 from transformers.sdt.stmts.expressions import AssignExpression, AccessExpression, IndexExpression, \
-    CallExpression, ListExpression, RefExpression, ReadLine, ReadInteger, Expression
+    CallExpression, ListExpression, RefExpression, ReadLine, ReadInteger, Expression, StringValue
 from transformers.sdt.utils import VariableName
 from transformers.types import (
     DecafArray, DecafString, DecafBool, DecafDouble, DecafInt, DecafVoid,
@@ -95,11 +95,17 @@ class DecafTransformer(
         for cast_function in cast_functions:
             context.current_scope.extend_function(cast_function)
         # calc. code section
-        code_section = [".globl main",
-                        ".text"]
-        for tr in tree:
-            tr.check_scope()
-            code_section += tr.to_tac(context)
+        code_section = []
+        try:
+            for tr in tree:
+                code_section += tr.to_tac(context)
+        except Exception:
+            # if an exception happened during generation, the code will be just Printing "Semantic Error"
+            code_section = Function(identifier=VariableName("main"), params=[], return_type=DecafInt,
+                                    stmts=StatementBlock(
+                                        sts=[PrintStatement([StringValue("\"Semantic Error\"")])])).to_tac(context)
+        code_section = [".globl main", ".text"] + code_section
+
         with open(os.path.join(os.path.dirname(__file__), '../code_generation/resources/funcs.reserved'), 'r') as f:
             code_section += f.read().split('\n')
 

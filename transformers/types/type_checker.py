@@ -45,9 +45,9 @@ class TypeChecker(ABC):
             DoubleValue,
             StringValue,
             NullValue,
-            RefExpression,
             ReadLine,
-            ReadInteger
+            ReadInteger,
+            RefExpression
         )
         return super().__new__(
             {
@@ -118,8 +118,7 @@ class AssignExpressionTypeChecker(TypeChecker):
     expression: "AssignExpression"
 
     def check_type(self, context: "Context", expected_type: DecafType = None) -> DecafType:
-        breakpoint()
-        l_value_type = RefExpression(self.expression.l_value).type_checker.check_type(context=context)
+        l_value_type = context.current_scope.apply_symbol(self.expression.l_value).type
         self.expression.r_value.type_checker.check_type(context, expected_type=l_value_type)
         return self.check_type_equality_and_return(t1=l_value_type, t2=expected_type)
 
