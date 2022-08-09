@@ -1,10 +1,9 @@
-from typing import List, TYPE_CHECKING
+from typing import List, TYPE_CHECKING, Optional
 
 from transformers.sdt import SDTNode
 from transformers.types import DecafType, DecafInt
 from transformers.sdt import Variable
 from transformers.sdt.utils import VariableName
-
 
 if TYPE_CHECKING:
     from code_generation import Context
@@ -17,7 +16,7 @@ class Function(SDTNode):
     def label(self) -> str:
         return f"func_{self.identifier.name}" if self.identifier.name != 'main' else 'main'
 
-    def __init__(self, identifier: "VariableName", params: List["Variable"], return_type: DecafType,
+    def __init__(self, identifier: "VariableName", params: List["Variable"], return_type: Optional[DecafType],
                  stmts: "StatementBlock"):
         super().__init__()
         self.identifier, self.params, self.return_type = identifier, params, return_type

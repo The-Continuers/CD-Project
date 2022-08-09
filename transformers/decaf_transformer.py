@@ -9,7 +9,7 @@ from transformers.mixins import DecafExpressionTransformerMixin, DecafToValueTra
 from transformers.sdt import (
     SDTNode, Variable, Function,
 )
-from transformers.sdt.builtins import cast_functions
+from transformers.sdt.builtins import builtin_functions
 from transformers.sdt.stmts import ReturnStatement, IfStatement, WhileStatement, ForStatement, BreakStatement, \
     ContinueStatement, PrintStatement, StatementBlock
 from transformers.sdt.stmts.expressions import AssignExpression, AccessExpression, IndexExpression, \
@@ -92,7 +92,7 @@ class DecafTransformer(
         # create global context object
         from code_generation import Context
         context = Context()
-        for cast_function in cast_functions:
+        for cast_function in builtin_functions:
             context.current_scope.extend_function(cast_function)
         # calc. code section
         code_section = []

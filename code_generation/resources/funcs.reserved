@@ -72,17 +72,11 @@ fbr:    li      $v0, 4          # system call for print_str
 end:    jr      $ra
 
 
-_Alloc:
-        subu    $sp, $sp, 8
-        sw      $fp, 8($sp)
-        sw      $ra, 4($sp)
-        addiu   $fp, $sp, 8
+func_alloc:
         li      $v0, 9
-        lw      $a0, 4($fp)
-        syscall
-        move    $sp, $fp
-        lw      $ra, -4($fp)
-        lw      $fp, 0($fp)
+        lw      $a0, 0($sp) # copy number of bytes to $a0
+        syscall             # $v0: addr. of Alloc. Memory
+        move $t0, $v0       # copy the address to $t0
         jr      $ra
 
 
