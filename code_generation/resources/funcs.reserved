@@ -29,6 +29,7 @@ _PrintDouble:
         la      $a0, DOT
         syscall
 
+
         mtc1.d $t0, $f0
         cvt.d.w $f0, $f0
         sub.d $f4, $f0, $f12
