@@ -86,7 +86,8 @@ class BinaryExpression(Expression):
                 f"la $t0, {data_name}\t# {data_name}'s address -> $t0"
                 "# push string address result to stack",
                 *context.current_scope.push_to_stack(temp_t=DecafInt),
-                'jal _StringConcat'
+                'jal _StringConcat',
+                f"la $t0, {data_name}\t# {data_name}'s address -> $t0"
             ]
         else:
             CompilerPanic('no other operation is supported for string values')
