@@ -6,7 +6,6 @@ from transformers.sdt import Variable
 from transformers.sdt.utils import VariableName
 
 if TYPE_CHECKING:
-    from code_generation import Scope
     from transformers.sdt.stmts import StatementBlock
 
 

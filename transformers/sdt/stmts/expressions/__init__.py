@@ -11,3 +11,4 @@ from .values import (
     DecafValue, IntValue, DoubleValue, StringValue, BoolValue, NullValue
 )
 from .input import InputExpression, ReadInteger, ReadLine
+from .cast_functions import cast_functions

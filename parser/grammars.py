@@ -101,7 +101,7 @@ concrete_lvalue: lvalue "." identifier -> clv_access
     | identifier -> clv_id
 
 atom: const -> atom_const
-    | dts "("expr")" -> atom_dts
+    | DTS "("expr")" -> atom_dts
     | "ReadInteger" "(" ")" -> read_integer
     | "ReadLine" "(" ")" -> read_line
     | lvalue -> atom_lv
@@ -119,7 +119,7 @@ lvalue_atom: "new" CLS_IDENT ["("")"]  -> expr_instantiate
     | "this" -> expr_this
     | identifier "(" args ")" -> lv_call
 
-dts: "dtoi" | "btoi" | "itod" | "itob" -> dts
+DTS: "dtoi" | "btoi" | "itod" | "itob"
 
 identifier: IDENT -> identifier
 const: INTEGER -> int_const

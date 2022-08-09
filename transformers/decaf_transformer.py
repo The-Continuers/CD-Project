@@ -12,7 +12,7 @@ from transformers.sdt import (
 from transformers.sdt.stmts import ReturnStatement, IfStatement, WhileStatement, ForStatement, BreakStatement, \
     ContinueStatement, PrintStatement, StatementBlock
 from transformers.sdt.stmts.expressions import AssignExpression, AccessExpression, IndexExpression, \
-    CallExpression, ListExpression, RefExpression, ReadLine, ReadInteger
+    CallExpression, ListExpression, RefExpression, ReadLine, ReadInteger, cast_functions, Expression
 from transformers.sdt.utils import VariableName
 from transformers.types import (
     DecafArray, DecafString, DecafBool, DecafDouble, DecafInt, DecafVoid,
@@ -91,7 +91,8 @@ class DecafTransformer(
         # create global context object
         from code_generation import Context
         context = Context()
-
+        for cast_function in cast_functions:
+            context.current_scope.extend_function(cast_function)
         # calc. code section
         code_section = [".globl main",
                         ".text"]
@@ -216,9 +217,6 @@ class DecafTransformer(
     def expr_instantiate_array(self, tree):
         return ListExpression(array_expr=tree[0], array_type=tree[1])
 
-    def expr_dts(self, tree):
-        return Todo()
-
     def expr_this(self, tree):
         return Todo()
 
@@ -230,3 +228,8 @@ class DecafTransformer(
 
     def lv_id(self, tree):
         return RefExpression(tree[0])
+
+    def atom_dts(self, tree):
+        cast_func_id: str = tree[0].value
+        cast_expr: "Expression" = tree[1]
+        return CallExpression(func_name=VariableName(cast_func_id), args=[cast_expr])
