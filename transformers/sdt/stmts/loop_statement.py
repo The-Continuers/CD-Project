@@ -29,7 +29,7 @@ class WhileStatement(Statement):
     def to_tac(self, context: "Context") -> List[str]:
         self.cond_expr.type_checker.check_type(
             context, expected_type=DecafBool)
-        with context.current_scope.loop(self):
+        with context.loop(self):
             codes = ['#loop started']
             end_label = f'end_{(start_label := context.get_loop_label())}'
             self.end_label = end_label

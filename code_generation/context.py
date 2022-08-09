@@ -1,4 +1,11 @@
+from typing import Union, TYPE_CHECKING
+
 from code_generation import GLOBAL_SCOPE, Scope
+from code_generation.scope import ScopeLoopInterface
+from utils import Stack
+
+if TYPE_CHECKING:
+    from transformers.sdt.stmts import ForStatement, WhileStatement
 
 
 class ContextScopeHandler:
@@ -38,6 +45,7 @@ class Context:
     def __init__(self, current_scope: Scope = GLOBAL_SCOPE):
         self.current_scope: Scope = current_scope
         self.data_seg = []
+        self.loop_stack = Stack()
 
         from transformers.types import (
             DecafInt, DecafDouble, DecafString, DecafBool
@@ -62,6 +70,9 @@ class Context:
         self.data_seg.append(
             f'{name}: .{mips_type} {value}'
         )
+
+    def loop(self, loop: Union["ForStatement", "WhileStatement"]):
+        return ScopeLoopInterface(self, loop)
 
     def get_data_name(self, data_type: "DecafType") -> str:
         return f"{self.current_scope.scope_prefix}_{data_type.enum}_const_{self.decaf_type_to_counter[data_type]()}"

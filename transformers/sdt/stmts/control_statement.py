@@ -16,7 +16,7 @@ class BreakStatement(ControlStatement):
 
     def to_tac(self, context: "Context") -> List[str]:
         return [
-            f'j {context.current_scope.loop_stack.head().end_label}'
+            f'j {context.loop_stack.head().end_label}'
         ]
 
 
@@ -24,5 +24,5 @@ class ContinueStatement(ControlStatement):
 
     def to_tac(self, context: "Context") -> List[str]:
         return [
-            f'j {context.current_scope.loop_stack.head().continue_label}'
+            f'j {context.loop_stack.head().continue_label}'
         ]
