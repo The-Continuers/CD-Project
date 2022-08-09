@@ -1,7 +1,4 @@
 class Todo:
-    left_behind_tests = [
-        'Arrays/t134-array-13.d'
-    ]
     issues = [
         """
             Print Double In 8bar
@@ -22,9 +19,6 @@ class Todo:
 
     test_fixes = {
         '$ep': [
-            'Conditional'
+            "Semantic Error",
         ],
-        'Sad and Ashk': [
-            'Loop'
-        ]
     }
