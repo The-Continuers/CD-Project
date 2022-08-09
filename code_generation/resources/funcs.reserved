@@ -190,6 +190,14 @@ func_itod:
 func_dtoi:
         l.d $f0,0($sp)     #move top stack to f0
         li.d $f6, 0.5 # round to nearest integer
+
+        sub.d $f4, $f4, $f4
+        c.lt.d $f0, $f4
+
+        bc1f __func_dtoi_rev
+        li.d $f6 -0.49
+
+        __func_dtoi_rev:
         add.d $f0, $f0, $f6
         cvt.w.d $f0,$f0
         mfc1.d $t0,$f0
@@ -199,7 +207,7 @@ func_dtoi:
 func_itob:
         lw $t0,0($sp)           #copy top stack to t0
         beqz $t0,_itob_label
-        addu $v0,$zero,1
+        addu $t0,$zero,1
         b _itob_endlabel
 
         _itob_label:
