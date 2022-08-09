@@ -221,3 +221,38 @@ func_btoi:
         lw $t0,0($sp)           #copy top stack to t0
         jr      $ra
 
+_StringConcat:
+    lw $a0, 8($sp)
+    lw $a1, 0($sp)
+    jal strcopier
+    nop
+
+# Concatenate second string on result buffer
+    lw $a0, 4($sp)
+    or $a1, $v0, $zero
+    jal strcopier
+    nop
+    j finish
+    nop
+
+# String copier function
+strcopier:
+    or $t0, $a0, $zero # Source
+    or $t1, $a1, $zero # Destination
+
+loop:
+    lb $t2, 0($t0)
+    beq $t2, $zero, end
+    addiu $t0, $t0, 1
+    sb $t2, 0($t1)
+    addiu $t1, $t1, 1
+    b loop
+    nop
+
+end:
+    or $v0, $t1, $zero # Return last position on result buffer
+    move $t0, $v0
+    jr $ra
+    nop
+
+
