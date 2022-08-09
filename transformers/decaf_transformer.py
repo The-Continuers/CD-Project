@@ -222,7 +222,7 @@ class DecafTransformer(
         return Todo()
 
     def expr_instantiate_array(self, tree):
-        return ListExpression(array_expr=tree[0], array_type=tree[1])
+        return ListExpression(array_num_expr=tree[0], array_type=tree[1])
 
     def expr_this(self, tree):
         return Todo()

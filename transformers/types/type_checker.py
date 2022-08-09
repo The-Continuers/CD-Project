@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Optional
 
 from transformers.types import (
-    DecafType, DecafBool, DecafInt
+    DecafType, DecafBool, DecafInt, DecafArray
 )
 from transformers.types.exceptions import DecafTypeError
 
@@ -19,7 +19,8 @@ if TYPE_CHECKING:
         BoolValue,
         DoubleValue,
         StringValue,
-        NullValue, DecafValue, RefExpression, InputExpression
+        NullValue, DecafValue, RefExpression, InputExpression,
+        ListExpression, IndexExpression
     )
     from transformers.sdt import Variable, Function
 
@@ -47,7 +48,9 @@ class TypeChecker(ABC):
             NullValue,
             ReadLine,
             ReadInteger,
-            RefExpression
+            RefExpression,
+            ListExpression,
+            IndexExpression
         )
         return super().__new__(
             {
@@ -63,6 +66,8 @@ class TypeChecker(ABC):
                 NullValue: ConstExpressionTypeChecker,
                 ReadLine: InputExpressionTypeChecker,
                 ReadInteger: InputExpressionTypeChecker,
+                ListExpression: ListExpressionTypeChecker,
+                IndexExpression: IndexExpressionTypeChecker
             }[type(expression)],
         )
 
@@ -163,3 +168,25 @@ class InputExpressionTypeChecker(TypeChecker):
 
     def check_type(self, context: "Context", expected_type: DecafType = None) -> DecafType:
         return self.check_type_equality_and_return(self.expression.return_type, expected_type)
+
+
+class ListExpressionTypeChecker(TypeChecker):
+    expression: "ListExpression"
+
+    def check_type(self, context: "Context", expected_type: DecafType = None) -> DecafType:
+        self.expression.num_expr.type_checker.check_type(context=context, expected_type=DecafInt)
+        return self.check_type_equality_and_return(t1=DecafArray(self.expression.type), t2=expected_type)
+
+
+class IndexExpressionTypeChecker(TypeChecker):
+    expression: "IndexExpression"
+
+    def check_type(self, context: "Context", expected_type: DecafType = None) -> DecafType:
+        array_t: "DecafType" = self.expression.array.type_checker.check_type(context=context)
+        # check if l_value is of Array Type
+        if not isinstance(array_t, DecafArray):
+            raise DecafTypeError("IndexExpression: l_value is not of DecafArray")
+
+        # check if index is of Int Type
+        self.expression.index.type_checker.check_type(context=context, expected_type=DecafInt)
+        return self.check_type_equality_and_return(t1=array_t.sub_type, t2=expected_type)

@@ -3,6 +3,6 @@ from transformers.types import DecafType
 
 
 class ListExpression(Expression):
-    def __init__(self, array_expr: Expression, array_type: DecafType) -> None:
+    def __init__(self, array_num_expr: Expression, array_type: DecafType) -> None:
         super().__init__()
-        self.expr, self.type = array_expr, array_type
+        self.num_expr, self.type = array_num_expr, array_type
