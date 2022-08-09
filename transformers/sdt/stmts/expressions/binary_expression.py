@@ -38,7 +38,7 @@ class BinaryExpression(Expression):
         return self.op_to_mips_op_int.get(self.op)
 
     def get_tac_code_for_double_operation(self, context, data_type: DecafType) -> List[str]:
-        label_name = context.current_scope.get_data_name(data_type)
+        label_name = context.get_data_name(data_type)
         op_to_mips_op_double = {
             operator.or_: self.op_to_mips_op_int.get(operator.or_),
             operator.and_: self.op_to_mips_op_int.get(operator.and_),

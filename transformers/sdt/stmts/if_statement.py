@@ -15,16 +15,16 @@ class IfStatement(Statement):
             else_stmts: Optional["StatementBlock"],
     ):
         self.conditional_expr, self.if_stmts, self.else_stmts = conditional_expr, if_stmts, else_stmts
-        self.if_stmts.new_scope = False
-        if self.else_stmts is not None:
-            self.else_stmts.new_scope = False
+        # self.if_stmts.new_scope = False
+        # if self.else_stmts is not None:
+        #     self.else_stmts.new_scope = False
 
     def to_tac(self, context: "Context") -> List[str]:
         if_codes = self.if_stmts.to_tac(context=context) if self.if_stmts else []
         else_codes = self.else_stmts.to_tac(
             context) if self.else_stmts else []
-        end_if_label = context.current_scope.get_end_if_else_label('if')
-        end_else_label = context.current_scope.get_end_if_else_label('else')
+        end_if_label = context.get_end_if_else_label('if')
+        end_else_label = context.get_end_if_else_label('else')
         return [
             '# if started',
             *self.conditional_expr.to_tac(context),

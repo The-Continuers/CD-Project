@@ -15,47 +15,14 @@ if TYPE_CHECKING:
     from transformers.sdt.stmts import ForStatement, WhileStatement
 
 
-def get_counter(modular: bool = False):
-    def counter_generator():
-        counter = 0
-        while True:
-            counter = counter + 1
-            if modular:
-                counter %= 2
-            yield counter
-
-    it_ = counter_generator()
-
-    def counter():
-        return it_.__next__()
-
-    return counter
-
-
 class Scope:
 
-    def __init__(self, name: str, parent_scope: "Scope" = None):
+    def __init__(self, name: str = None, parent_scope: "Scope" = None):
         self.stack_size = 0
         self.name = name
         self.parent_scope = parent_scope
         self.functions_env: Dict[str, "Function"] = {}
         self.symbols_env: Dict[str, "Symbol"] = {}
-        from transformers.types import (
-            DecafInt, DecafDouble, DecafString, DecafBool
-        )
-        self.decaf_type_to_counter = {
-            DecafInt: get_counter(),
-            DecafDouble: get_counter(),
-            DecafString: get_counter(),
-            DecafBool: get_counter(),
-        }
-        self.loop_counter = get_counter()
-
-        self.if_else_counter = {
-            'if': get_counter(),
-            'else': get_counter(),
-        }
-
         self.loop_stack = Stack()
 
     def loop(self, loop: Union["ForStatement", "WhileStatement"]):
@@ -111,19 +78,7 @@ class Scope:
 
     @property
     def scope_prefix(self):
-        return '_'.join([scope.name for scope in self.path_to_root()])
-
-    def get_temp(self, type_: "DecafType"):
-        return ''.join(['temp', type_.enum, str(self.decaf_type_to_counter[type_]() % 2)])
-
-    def get_data_name(self, data_type: "DecafType") -> str:
-        return f"{self.scope_prefix}_{data_type.enum}_const_{self.decaf_type_to_counter[data_type]()}"
-
-    def get_end_if_else_label(self, if_else) -> str:
-        return f'end_{if_else}_{self.scope_prefix}_{self.if_else_counter[if_else]()}'
-
-    def get_loop_label(self) -> str:
-        return f'loop_{self.scope_prefix}_{self.loop_counter()}'
+        return '_'.join([scope.name for scope in self.path_to_root() if scope.name is not None])
 
     def push_to_stack(self, temp_t: "DecafType") -> List[str]:
         self.stack_size += temp_t.size

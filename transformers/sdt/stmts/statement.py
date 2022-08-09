@@ -25,7 +25,7 @@ class StatementBlock(Statement):
     def to_tac(self, context: "Context") -> List[str]:
         codes = ["# Statements block start"]
         if self.new_scope:
-            with context.scope(scope_name="block") as current_scope:
+            with context.scope() as current_scope:
                 codes += self.sts_to_tac(context)
                 # TODO: check how much this code affect the others
                 codes += [f"addi $sp, $sp, {current_scope.stack_size} # pop Statements Block Stack"]

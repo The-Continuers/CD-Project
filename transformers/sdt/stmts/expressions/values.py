@@ -42,7 +42,7 @@ class StringValue(DecafValue):
 
     def to_tac(self, context: "Context"):
         context.add_data(
-            data_name := context.current_scope.get_data_name(data_type=DecafString),
+            data_name := context.get_data_name(data_type=DecafString),
             'asciiz',
             self.value
         )

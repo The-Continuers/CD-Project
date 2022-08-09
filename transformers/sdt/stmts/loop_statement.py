@@ -13,7 +13,7 @@ class WhileStatement(Statement):
         super().__init__()
         self.cond_expr = cond_expr
         self.stmts = stmts
-        self.stmts.new_scope = False
+        # self.stmts.new_scope = False
         self.end_label: Optional[str] = None
         self.continue_label: Optional[str] = None
 
@@ -31,7 +31,7 @@ class WhileStatement(Statement):
             context, expected_type=DecafBool)
         with context.current_scope.loop(self):
             codes = ['#loop started']
-            end_label = f'end_{(start_label := context.current_scope.get_loop_label())}'
+            end_label = f'end_{(start_label := context.get_loop_label())}'
             self.end_label = end_label
             self.before_codes_callback(context, codes)
             codes += [f"{start_label}:"]
