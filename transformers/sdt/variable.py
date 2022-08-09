@@ -16,7 +16,6 @@ class Variable(SDTNode):
         self.id = v_id
 
     def to_tac(self, context: "Context"):
-        x = self.id.name
         context.current_scope.extend_symbol(variable=self)
         return [f"# variable declaration for {self}",
                 f"subu $sp, $sp, {self.type.size}	# Decrement sp to make space for variable {self}."]
