@@ -12,3 +12,8 @@ class DecafNameError(Exception):
 
     def __str__(self):
         return f'name "{self.var_name.name}" not found!'
+
+
+class DecafNotFoundInLocalError(DecafNameError):
+    def __str__(self):
+        return f"name \"{self.var_name.name}\" is not in Local. Look for it in Global Scope"

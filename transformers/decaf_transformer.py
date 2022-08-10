@@ -107,28 +107,30 @@ class DecafTransformer(
         # calc. code section
         code_section = []
         # the main func of mips: Global Variables + calling the main function of program
-        code_main_section = ["main: # the main function"]
-        code_main_section += self.indent([
+        code_main_section = [
             "# saving and changing $fp, $ra code",
             "subu $sp, $sp, 8\t# decrement sp to make space to save ra, fp",
             "sw $fp, 4($sp)\t# save fp",
             "sw $ra, 0($sp)\t# save ra",
             "addiu $fp, $sp, 8\t# set up new fp",
-        ])
+            "move $v1, $fp\t# save the current $fp (Global stack pointer) to $v1"
+        ]
         context.current_scope.extend_symbol(variable=Variable(
             v_id=VariableName("$fp"), v_type=DecafInt))
         context.current_scope.extend_symbol(variable=Variable(
             v_id=VariableName("$ra"), v_type=DecafInt))
         for var_decl in global_var_decls:
-            code_main_section += self.indent(var_decl.to_tac(context))
-        code_main_section += self.indent(["jal func_main"])
-        code_main_section += self.indent([
+            code_main_section += var_decl.to_tac(context)
+        code_main_section += ["jal func_main"]
+        code_main_section += [
             f"end_function_main:",
             "# removing $fp and $ra from stack, and returning back to the prev. function",
             "move $sp, $fp\t\t# pop callee frame off stack",
             "lw $ra, -8($fp)\t# restore saved ra",
             "lw $fp, -4($fp)\t# restore saved fp",
-        ])
+        ]
+        code_main_section += [f"jr $ra\t\t# return from function main"]
+        code_main_section = ["main: # the main function"] + self.indent(code_main_section)
         # Adding different functions to the code section
         try:
             for tr in global_func_decls:

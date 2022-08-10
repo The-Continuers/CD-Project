@@ -1,5 +1,6 @@
 from typing import List, TYPE_CHECKING, Union
 
+from code_generation.exceptions import DecafNotFoundInLocalError
 from transformers.sdt.stmts.expressions import Expression, IndexExpression
 from transformers.types import DecafInt, DecafBool, DecafDouble, DecafString
 from todos import Todo
@@ -24,6 +25,14 @@ class AssignExpression(Expression):
         else:
             return [f"sw $t0, {st_offset}($sp)	# save value from $t0 to {st_offset}($sp)"]
 
+    @staticmethod
+    def assign_to_head_of_stack(var, head_offset):
+        var_type = var.type
+        if var_type == DecafDouble:
+            return [f"s.d $f0, {-head_offset}($v1)	# save value from $f0 to {head_offset}(head_of_stack)"]
+        else:
+            return [f"sw $t0, {-head_offset}($v1)	# save value from $t0 to {head_offset}(head_of_stack)"]
+
     def to_tac(self, context: "Context") -> List[str]:
         # breakpoint()
         # eval right
@@ -33,11 +42,17 @@ class AssignExpression(Expression):
                 variable_name=self.l_value)
             code += [f"# Value assignment for {l_variable}"]
 
-            code += self.assign_code_to_stack(
-                var=l_variable,
-                st_offset=context.current_scope.apply_symbol_stack_pointer_offset(
-                    variable_name=self.l_value)
-            )
+            try:
+                code += self.assign_code_to_stack(
+                    var=l_variable,
+                    st_offset=context.current_scope.apply_symbol_stack_pointer_offset(
+                        variable_name=self.l_value)
+                )
+            except DecafNotFoundInLocalError:
+                code += self.assign_to_head_of_stack(
+                    var=l_variable,
+                    head_offset=context.current_scope.global_address(variable_name=self.l_value)
+                )
         elif type(self.l_value) == IndexExpression:
             # put eval right to stack
             r_type = self.r_value.type_checker.check_type(context=context)

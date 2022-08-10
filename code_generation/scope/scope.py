@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List, Dict
 
-from code_generation.exceptions import DecafNameError
+from code_generation.exceptions import DecafNameError, DecafNotFoundInLocalError
 from code_generation.scope import Symbol
 from exceptions import CompilerPanic
 from todos import Todo
@@ -57,11 +57,16 @@ class Scope:
 
     def apply_symbol_stack_pointer_offset(self, variable_name: "VariableName", base_offset: int = 0) -> int:
         try:
+            if self == GLOBAL_SCOPE:
+                raise DecafNotFoundInLocalError(variable_name)
             scope_ans: "Symbol" = self.symbols_env.get(variable_name.name)
             if scope_ans is None:
-                return self.parent_scope.apply_symbol_stack_pointer_offset(
-                    variable_name, base_offset=self.stack_size + base_offset
-                )
+                if self.parent_scope == GLOBAL_SCOPE:
+                    raise DecafNotFoundInLocalError(variable_name)
+                else:
+                    return self.parent_scope.apply_symbol_stack_pointer_offset(
+                        variable_name, base_offset=self.stack_size + base_offset
+                    )
             return self.stack_size - scope_ans.relative_stack_address + base_offset
         except AttributeError as e:
             if "'NoneType' object has no attribute 'get'" in str(e):
@@ -101,6 +106,15 @@ class Scope:
             code += [str(Todo())]
         code += [f"addi $sp, $sp, {temp_t.size}	# move stack up to pop the temp"]
         return code
+
+    @staticmethod
+    def global_address(variable_name: "VariableName") -> int:
+        try:
+            return GLOBAL_SCOPE.symbols_env.get(variable_name.name).relative_stack_address
+        except AttributeError as e:
+            if "'NoneType' object has no attribute 'get'" in str(e):
+                raise DecafNameError(var_name=variable_name)
+            raise CompilerPanic(caused_by=e)
 
 
 GLOBAL_SCOPE = Scope(name='global')
