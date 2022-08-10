@@ -29,6 +29,7 @@ _PrintDouble:
         la      $a0, DOT
         syscall
 
+
         mtc1.d $t0, $f0
         cvt.d.w $f0, $f0
         sub.d $f4, $f0, $f12
@@ -213,4 +214,39 @@ func_itob:
 func_btoi:
         lw $t0,0($sp)           #copy top stack to t0
         jr      $ra
+
+_StringConcat:
+    move $t4, $ra
+    lw $a0, 8($sp)
+    lw $a1, 0($sp)
+    jal _strcopier
+    nop
+
+# Concatenate second string on result buffer
+    lw $a0, 4($sp)
+    or $a1, $v0, $zero
+    jal _strcopier
+    move $ra, $t4
+    jr $ra
+    nop
+
+# String copier function
+_strcopier:
+    or $t0, $a0, $zero # Source
+    or $t1, $a1, $zero # Destination
+
+loop:
+    lb $t2, 0($t0)
+    beq $t2, $zero, end_strcopier
+    addiu $t0, $t0, 1
+    sb $t2, 0($t1)
+    addiu $t1, $t1, 1
+    b loop
+    nop
+
+end_strcopier:
+    or $v0, $t1, $zero # Return last position on result buffer
+    jr $ra
+    nop
+
 

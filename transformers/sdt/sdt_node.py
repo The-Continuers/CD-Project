@@ -7,6 +7,3 @@ if TYPE_CHECKING:
 class SDTNode:
     def to_tac(self, context: "Context") -> List[str]:
         return []
-
-    def check_scope(self):
-        pass

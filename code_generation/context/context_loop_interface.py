@@ -5,7 +5,7 @@ if typing.TYPE_CHECKING:
     from transformers.sdt.stmts import ForStatement, WhileStatement
 
 
-class ScopeLoopInterface:
+class ContextLoopInterface:
 
     def __init__(self, context: "Context", loop: typing.Union["ForStatement", "WhileStatement"]):
         self.context = context

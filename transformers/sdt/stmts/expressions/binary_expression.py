@@ -71,6 +71,24 @@ class BinaryExpression(Expression):
                     'li $t1, 1 # put 1 to $t1, because we dont have subi',
                     'sub $t0, $t1, $t0 # put 1-$t0 (not $t0) in $t0'
                 ]
+        elif self.op == operator.add:
+            context.add_data(
+                data_name := context.get_data_name(data_type=DecafString),
+                'space',
+                1000
+            )
+            codes += [
+                "# push string address 1 to stack",
+                *context.current_scope.push_to_stack(temp_t=DecafInt),
+                "move $t0, $t1 # move second arg in t0",
+                "# push string address 2 to stack",
+                *context.current_scope.push_to_stack(temp_t=DecafInt),
+                f"la $t0, {data_name}\t# {data_name}'s address -> $t0"
+                "# push string address result to stack",
+                *context.current_scope.push_to_stack(temp_t=DecafInt),
+                'jal _StringConcat',
+                f"la $t0, {data_name}\t# {data_name}'s address -> $t0"
+            ]
         else:
             CompilerPanic('no other operation is supported for string values')
         return codes
