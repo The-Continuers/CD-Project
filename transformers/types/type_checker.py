@@ -2,6 +2,8 @@ import operator
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Optional
 
+from todos import Todo
+from transformers.sdt.utils import VariableName
 from transformers.types import (
     DecafType, DecafBool, DecafInt, DecafArray
 )
@@ -123,7 +125,14 @@ class AssignExpressionTypeChecker(TypeChecker):
     expression: "AssignExpression"
 
     def check_type(self, context: "Context", expected_type: DecafType = None) -> DecafType:
-        l_value_type = context.current_scope.apply_symbol(self.expression.l_value).type
+        from transformers.sdt.stmts.expressions import IndexExpression
+        l_value_type = type(self.expression.l_value)
+        if l_value_type == VariableName:
+            l_value_type = context.current_scope.apply_symbol(self.expression.l_value).type
+        elif l_value_type == IndexExpression:
+            l_value_type = self.expression.l_value.type_checker.check_type(context=context)
+        else:
+            l_value_type = Todo()
         self.expression.r_value.type_checker.check_type(context, expected_type=l_value_type)
         return self.check_type_equality_and_return(t1=l_value_type, t2=expected_type)
 

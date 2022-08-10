@@ -21,8 +21,13 @@ class DecafArray(DecafType):
         return f'{super().__str__()}<{str(self.sub_type)}>'
 
     def __eq__(self, other):
-        if type(other) == DecafArray:
+        # breakpoint()
+        other_type = type(other)
+        if other_type == DecafArray:
             return self.sub_type == other.sub_type
+        else:
+            # breakpoint()
+            return other == DecafInt
 
 
 DecafInt = DecafType(enum='DecafInt')

@@ -3,7 +3,7 @@ from typing import Callable, TYPE_CHECKING, List
 
 from exceptions import CompilerPanic
 from transformers.sdt.stmts.expressions import Expression
-from transformers.types import DecafType, DecafInt, DecafDouble, DecafString
+from transformers.types import DecafType, DecafInt, DecafDouble, DecafString, DecafArray
 
 if TYPE_CHECKING:
     from code_generation import Context
@@ -76,6 +76,9 @@ class BinaryExpression(Expression):
         return codes
 
     def get_tac_code_for_operation(self, context, data_type: DecafType) -> List[str]:
+        # breakpoint()
+        if type(data_type) == DecafArray:
+            data_type = DecafInt
         return {
             DecafDouble: self.get_tac_code_for_double_operation,
             DecafString: self.get_tac_code_for_string_operation,
