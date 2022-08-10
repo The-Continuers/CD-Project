@@ -100,7 +100,7 @@ class DecafTransformer(
             for tr in tree:
                 code_section += tr.to_tac(context)
         except Exception as e:
-            raise e
+            # raise e
             # breakpoint()
             # if an exception happened during generation, the code will be just Printing "Semantic Error"
             code_section = Function(identifier=VariableName("main"), params=[], return_type=DecafInt,

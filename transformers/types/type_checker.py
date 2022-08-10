@@ -133,7 +133,11 @@ class AssignExpressionTypeChecker(TypeChecker):
             l_value_type = self.expression.l_value.type_checker.check_type(context=context)
         else:
             l_value_type = Todo()
-        self.expression.r_value.type_checker.check_type(context, expected_type=l_value_type)
+        r_value_type: "DecafType" = self.expression.r_value.type_checker.check_type(context, expected_type=l_value_type)
+        # tof
+        # breakpoint()
+        if type(l_value_type) != type(r_value_type):
+            raise DecafTypeError(f"AssignExpression: {l_value_type} can't be assigned to {r_value_type}")
         return self.check_type_equality_and_return(t1=l_value_type, t2=expected_type)
 
 
