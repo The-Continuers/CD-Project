@@ -88,16 +88,50 @@ class DecafTransformer(
         super().__init__(visit_tokens)
         self.loop_nums = 0
 
+    @staticmethod
+    def indent(code: List[str]) -> List[str]:
+        return list(map(lambda x: f"\t{x}", code))
+
     def program(self, tree: List[SDTNode]):
         # create global context object
         from code_generation import Context
         context = Context()
         for cast_function in builtin_functions:
             context.current_scope.extend_function(cast_function)
+        # insert functions to scope, for adding function header
+        for tr in tree:
+            if isinstance(tr, Function):
+                context.current_scope.extend_function(tr)
+        global_var_decls = [tr for tr in tree if isinstance(tr, Variable)]
+        global_func_decls = [tr for tr in tree if isinstance(tr, Function)]
         # calc. code section
         code_section = []
+        # the main func of mips: Global Variables + calling the main function of program
+        code_main_section = ["main: # the main function"]
+        code_main_section += self.indent([
+            "# saving and changing $fp, $ra code",
+            "subu $sp, $sp, 8\t# decrement sp to make space to save ra, fp",
+            "sw $fp, 4($sp)\t# save fp",
+            "sw $ra, 0($sp)\t# save ra",
+            "addiu $fp, $sp, 8\t# set up new fp",
+        ])
+        context.current_scope.extend_symbol(variable=Variable(
+            v_id=VariableName("$fp"), v_type=DecafInt))
+        context.current_scope.extend_symbol(variable=Variable(
+            v_id=VariableName("$ra"), v_type=DecafInt))
+        for var_decl in global_var_decls:
+            code_main_section += self.indent(var_decl.to_tac(context))
+        code_main_section += self.indent(["jal func_main"])
+        code_main_section += self.indent([
+            f"end_function_main:",
+            "# removing $fp and $ra from stack, and returning back to the prev. function",
+            "move $sp, $fp\t\t# pop callee frame off stack",
+            "lw $ra, -8($fp)\t# restore saved ra",
+            "lw $fp, -4($fp)\t# restore saved fp",
+        ])
+        # Adding different functions to the code section
         try:
-            for tr in tree:
+            for tr in global_func_decls:
                 code_section += tr.to_tac(context)
         except Exception as e:
             # raise e
@@ -106,7 +140,7 @@ class DecafTransformer(
             code_section = Function(identifier=VariableName("main"), params=[], return_type=DecafInt,
                                     stmts=StatementBlock(
                                         sts=[PrintStatement([StringValue("\"Semantic Error\"")])])).to_tac(context)
-        code_section = [".globl main", ".text"] + code_section
+        code_section = [".globl main", ".text"] + code_main_section + code_section
 
         with open(os.path.join(os.path.dirname(__file__), '../code_generation/resources/funcs.reserved'), 'r') as f:
             code_section += f.read().split('\n')

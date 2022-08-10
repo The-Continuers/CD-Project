@@ -33,7 +33,7 @@ class ReturnStatement(Statement):
     def type_check(self, context: "Context") -> "DecafType":
         func_label = self.get_func_name(context=context)
         # tof
-        func_name = func_label if func_label == "main" else func_label[5:]
+        func_name = func_label[5:]
         # breakpoint()
         func_return_type: "DecafType" = context.current_scope.apply_function(
             function_name=VariableName(func_name)).return_type

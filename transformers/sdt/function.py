@@ -14,7 +14,7 @@ class Function(SDTNode):
 
     @property
     def label(self) -> str:
-        return f"func_{self.identifier.name}" if self.identifier.name != 'main' else 'main'
+        return f"func_{self.identifier.name}"
 
     def __init__(self, identifier: "VariableName", params: List["Variable"], return_type: Optional[DecafType],
                  stmts: "StatementBlock"):
@@ -25,7 +25,7 @@ class Function(SDTNode):
 
     def to_tac(self, context: "Context"):
         scope_name = self.label
-        context.current_scope.extend_function(self)
+        # context.current_scope.extend_function(self)
         with context.scope(scope_name=scope_name) as curr_scope:
             # push params to scope
             for param in self.params:
