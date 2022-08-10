@@ -248,5 +248,5 @@ class DecafTransformer(
         return IndexExpression(array=tree[0], index=tree[1], concrete=False)
 
     def clv_index(self, tree):
-        breakpoint()
+        # breakpoint()
         return IndexExpression(array=tree[0], index=tree[1], concrete=True)

@@ -49,9 +49,9 @@ class AssignExpression(Expression):
             # pop right from stack
             code += context.current_scope.pop_from_stack(temp_t=r_type)
             if r_type == DecafDouble:
-                code += [f"s.d $f0, 0($t0)	# save value from $f0 to 0($t0)"]
+                code += [f"s.d $f0, 0($t1)	# save value from $f0 to 0($t1)"]
             else:
-                code += [f"sw $t0, 0($t0)	# save value from $t0 to 0($t0)"]
+                code += [f"sw $t0, 0($t1)	# save value from $t0 to 0($t1)"]
         else:
             code += [str(Todo())]
 

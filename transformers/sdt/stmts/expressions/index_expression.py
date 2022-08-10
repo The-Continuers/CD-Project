@@ -30,5 +30,5 @@ class IndexExpression(Expression):
                                                          right=self.index)).to_tac(context=context)
         # the result is in $t0
         if not self.concrete:
-            codes += ["l.d $f0, 0($t0)" if el_type_size == DecafDouble else "lw $t0, 0($t0)"]
+            codes += ["l.d $f0, 0($t0)" if array_type.sub_type == DecafDouble else "lw $t0, 0($t0)"]
         return codes
