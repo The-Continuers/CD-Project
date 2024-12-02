@@ -214,7 +214,7 @@ cython_debug/
 
 /.idea/
 /parser/resources/
-/tests
+/tests/**/
 out.asm
 /report
 /tests1
