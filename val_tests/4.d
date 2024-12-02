@@ -6,4 +6,5 @@ int main() {
     x = -x;
     // expected y = 144
     y = 2 * (2 * x) * (4 * x);
+    Print(y);
 }
