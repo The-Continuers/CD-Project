@@ -7,3 +7,10 @@ services:
       dockerfile: ./Dockerfile
     command:
       - ./rtests.sh
+  
+  decaf_validation_test_runner:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command:
+      - ./assert_run.sh
